@@ -20,7 +20,7 @@
 
 ;;; https://www.nordtheme.com/
 
-(use-package 'nord-theme
+(use-package nord-theme
   :ensure t
   :config (load-theme 'nord t))
 
@@ -35,7 +35,7 @@
 
 ;;; https://github.com/seagle0128/doom-modeline
 
-(use-package 'doom-modeline
+(use-package doom-modeline
   :ensure t
   :config (doom-modeline-mode 1))
 
@@ -47,29 +47,29 @@
 
 ;;; https://www.flycheck.org/
 
-(use-package 'flycheck
+(use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
 
 ;;; https://github.com/company-mode/company-mode
 
-(use-package 'company
+(use-package company
   :ensure t
   :init (global-company-mode))
 
 ;;; https://github.com/joaotavora/yasnippet
 
-(use-package 'yasnippet
+(use-package yasnippet
   :ensure t)
 
 ;;; https://github.com/AndreaCrotti/yasnippet-snippets
 
-(use-package 'yasnippet-snippets
+(use-package yasnippet-snippets
   :ensure t)
 
 ;;; https://github.com/johnmastro/react-snippets.el
 
-(use-package 'react-snippets
+(use-package react-snippets
   :ensure t)
 
 ;;; prog-mode
@@ -82,7 +82,7 @@
 
 ;;; https://github.com/smihica/emmet-mode
 
-(use-package 'emmet-mode
+(use-package emmet-mode
   :ensure t
   :hook  ((sgml-mode . emmet-mode)
 	  (css-mode . emmet-mode)
@@ -91,7 +91,7 @@
 
 ;;; https://github.com/emacs-lsp/lsp-mode
 
-(use-package 'lsp-mode
+(use-package lsp-mode
   :ensure t
   :init (setq
 	 lsp-keymap-prefix "C-c l"
@@ -105,12 +105,13 @@
 
 ;;; https://github.com/justbur/emacs-which-key
 
-(use-package 'which-key
+(use-package which-key
   :ensure t
   :config (which-key-mode))
 
 ;;; https://github.com/prettier/prettier-emacs
-(use-package 'prettier-js
+
+(use-package prettier-js
   :ensure t
   :hook (js-mode . prettier-js-mode))
 
