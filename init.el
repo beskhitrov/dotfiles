@@ -28,6 +28,7 @@
 ;;; Интерфейс
 
 (menu-bar-mode -1)
+(scroll-bar-mode -1)
 (line-number-mode -1)
 
 (setq display-time-format "⌚%X")
@@ -87,7 +88,7 @@
   :ensure t
   :hook  ((sgml-mode . emmet-mode)
 	  (css-mode . emmet-mode)
-	  (js-mode . emmet-mode))
+	  (js-jsx-mode . emmet-mode))
   :config (setq emmet-indent-after-insert nil))
 
 ;;; https://github.com/emacs-lsp/lsp-mode
@@ -101,8 +102,14 @@
 	 (css-mode . lsp)
 	 (js-mode . lsp)
 	 (lsp-mode . lsp-enable-which-key-integration)
+	 (lsp-mode . lsp-ui-mode)
 	 (lsp-mode . yas-minor-mode))
   :commands lsp)
+
+;;; https://github.com/emacs-lsp/lsp-ui
+
+(use-package lsp-ui
+  :ensure t)
 
 ;;; https://github.com/justbur/emacs-which-key
 
