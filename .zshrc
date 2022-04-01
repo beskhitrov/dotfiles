@@ -69,6 +69,11 @@ source ~/bin/z.sh
 #source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 #source /usr/local/etc/profile.d/z.sh
 
+#zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=* r:|=*'
+#zstyle :compinstall filename '/Users/kib/.zshrc2'
+#autoload -Uz compinit
+#compinit -u
+
 #autoload -U compinit
 #zstyle ':completion:*' menu select
 #zmodload zsh/complist
