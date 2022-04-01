@@ -1,95 +1,71 @@
-# Aliases
+# 
+# ~/.zshrc
+#
 
-BAT=`which bat`
-EXA=`which exa`
-NVIM=`which nvim`
-TIDY=`which tidy`
-#SSH-AGENT=`which ssh-agent`
-#SSH-ADD=`which ssh-add`
+[[ ! -v SSH_AUTH_SOCK ]] && eval $(ssh-agent) && ssh-add
 
-alias cat=$BAT
-alias egrep='egrep --color=auto'
-alias vi=$NVIM
-alias ll='$EXA -l --all --group'
-alias tm='$TIDY --markup yes'
-#alias -g ll='ls -al'
-alias -s md='view'
+if [[ $OSTYPE =~ "linux" ]]; then
+  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+;fi
 
-# Environment
+if [[ $OSTYPE =~ "darwin" ]]; then
+  source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /usr/local/etc/profile.d/z.sh
 
-#export LC_MESSAGES='en_US'
-#export CLICOLOR=1
-#export TERM=xterm-256color
+  if type brew &>/dev/null; then
+    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+    FPATH="$(brew --prefix)/share/zsh-completions:${FPATH}"
+  ;fi
+;fi
 
-#eval "$($SSH-AGENT -s)"
-#$SSH-ADD
-
-# Prompt: %n:%~ %# _
-
-PROMPT='%F{yellow}%m%f:%F{green}%1~%f %# '
-TMOUT=1
-TRAPALRM() { zle reset-prompt }
-
-precmd() { print "" }
-
-bindkey -v
-export KEYTIMEOUT=1
-
-# Key bindings
-
-bindkey '^[[A' up-line-or-search
-bindkey '^k' up-line-or-search
-bindkey '^[[B' down-line-or-search
-#bindkey '^j' down-line-or-search
-
-# Tab-completion
-autoload -Uz compinit && compinit -u
-
-# No beep
-setopt NO_BEEP
-# Navigation
-setopt AUTO_CD
-# Correction
-setopt CORRECT
-setopt CORRECT_ALL
-# History
-setopt HIST_EXPIRE_DUPS_FIRST 
-setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_DUPS
-setopt HIST_REDUCE_BLANKS
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-# Globbing
-setopt NO_CASE_GLOB
-setopt EXTENDED_GLOB
-
-# https://github.com/rupa/z
 source ~/bin/z.sh
-# autosuggestions
-#source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-#source /usr/local/etc/profile.d/z.sh
 
-#zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=* r:|=*'
-#zstyle :compinstall filename '/Users/kib/.zshrc2'
-#autoload -Uz compinit
-#compinit -u
-
-#autoload -U compinit
-#zstyle ':completion:*' menu select
-#zmodload zsh/complist
-#compinit
-#_comp_options+=(globdots)
-
-#if type brew &>/dev/null; then
-#	FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-#	FPATH="$(brew --prefix)/share/zsh-completions:${FPATH}"
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=* r:|=*'
 
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
-RPROMPT='${vcs_info_msg_0_} %8F%*%f %n'
+RPROMPT='${vcs_info_msg_0_} %8F%*%f %(!.%F{red}%n%f.%n)'
 zstyle ':vcs_info:git:*' formats '%8F%s:%b%f'
+
+PROMPT='%F{yellow}%m%f:%F{green}%1~%f %# '
+TMOUT=1; TRAPALRM() { zle reset-prompt }
+precmd() { print "" }
+
+autoload -Uz compinit && compinit -u
+
+setopt APPEND_HISTORY
+setopt AUTO_CD
+setopt CORRECT
+setopt CORRECT_ALL
+setopt EXTENDED_GLOB
+setopt EXTENDED_HISTORY
+setopt GLOB_DOTS
+setopt HIST_EXPIRE_DUPS_FIRST 
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt INC_APPEND_HISTORY
+setopt NO_BEEP
+setopt NO_CASE_GLOB
+setopt SHARE_HISTORY
+
+bindkey '^[OA' history-search-backward
+bindkey '^[OB' history-search-forward
+
+alias ll='exa -l --all --group'
+alias tm='tidy --markup yes'
+
+for suffix in "html" "css" "js";
+  do alias -s $suffix='emacs'
+;done && unset suffix
+
+LC_MESSAGES='en_US'
+HISTFILE="$HOME/.zsh_history"
+SAVEHIST=5000
+HISTSIZE=2000
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
