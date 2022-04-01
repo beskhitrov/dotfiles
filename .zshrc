@@ -4,8 +4,8 @@ BAT=`which bat`
 EXA=`which exa`
 NVIM=`which nvim`
 TIDY=`which tidy`
-SSH-AGENT=`which ssh-agent`
-SSH-ADD=`which ssh-add`
+#SSH-AGENT=`which ssh-agent`
+#SSH-ADD=`which ssh-add`
 
 alias cat=$BAT
 alias egrep='egrep --color=auto'
@@ -17,9 +17,9 @@ alias -s md='view'
 
 # Environment
 
-export LC_MESSAGES='en_US'
+#export LC_MESSAGES='en_US'
 #export CLICOLOR=1
-export TERM=xterm-256color
+#export TERM=xterm-256color
 
 #eval "$($SSH-AGENT -s)"
 #$SSH-ADD
