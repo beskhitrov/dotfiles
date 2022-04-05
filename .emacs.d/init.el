@@ -1,48 +1,15 @@
-;;; package --- GNU Emacs init file.
+;;; package --- Summary
 
 ;;; Commentary:
 
-;; General settings
-;; magit
-;; projectile
-;; package
-;; ido-mode
-;; dired
-;; org-mode
-;; gnus
-;; prog-mode
-;; nord-theme
-;; doom-themes
-;; doom-modeline
-;; flycheck
-;; company
-;; yasnippet
-;; yasnippet-snippets
-;; react-snippets
-;; emmet-mode
-;; lsp-mode
-;; which-key
-;; prettier-js
-;; json-mode
-;; npm-mode
-;; treemacs
-;; xterm-color
-
 ;;; Code:
-
-(use-package xterm-color
-  :ensure t
-  :config
-  (setq compilation-environment '("TERM=xterm-256color"))
-  (defun my/advice-compilation-filter (f proc string)
-    (funcall f proc (xterm-color-filter string)))
-  (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
 
 ;;; https://melpa.org/
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
+
 ;(package-refresh-contents)
 ;(package-install 'use-package)
 
@@ -53,20 +20,17 @@
 (setq auto-save-default nil)
 (delete-selection-mode t)
 
-;;; https://github.com/doomemacs/themes
+;;; doom-theme
 
-(use-package doom-themes
-  :ensure t
-  :config
-  (load-theme 'doom-vibrant t)
-  (doom-themes-treemacs-config))
+;(use-package doom-themes
+;  :ensure t
+;  :config (load-theme 'doom-vibrant t))
 
 ;;; https://www.nordtheme.com/
 
-;(use-package nord-theme
-;  :ensure t
-;  :init (add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/themes/"))
-;  :config (load-theme 'nord t))
+(use-package nord-theme
+  :ensure t
+  :config (load-theme 'nord t))
 
 ;;; Интерфейс
 
@@ -88,6 +52,10 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode t)
+
+;;; npm-mode
+(use-package npm-mode
+  :ensure t)
 
 ;;; https://www.flycheck.org/
 
@@ -128,21 +96,23 @@
 
 (use-package emmet-mode
   :ensure t
-  :hook ((sgml-mode . emmet-mode)
-	 (css-mode . emmet-mode)
-	 (js-mode . emmet-mode))
+  :hook  ((sgml-mode . emmet-mode)
+	  (css-mode . emmet-mode)
+	  (js-mode . emmet-mode))
   :config (setq emmet-indent-after-insert nil))
 
 ;;; https://github.com/emacs-lsp/lsp-mode
 
 (use-package lsp-mode
   :ensure t
-  :init (setq lsp-keymap-prefix "C-c l"
-	      lsp-headerline-breadcrumb-enable nil)
+  :init (setq
+	 lsp-keymap-prefix "C-c l"
+	 lsp-headerline-breadcrumb-enable nil)
   :hook ((html-mode . lsp)
 	 (css-mode . lsp)
 	 (js-mode . lsp)
 	 (lsp-mode . lsp-enable-which-key-integration)
+	 (lsp-mode . npm-mode)
 	 (lsp-mode . yas-minor-mode))
   :commands lsp)
 
@@ -157,6 +127,21 @@
 (use-package prettier-js
   :ensure t
   :hook (js-mode . prettier-js-mode))
+
+;;; json-mode
+
+(use-package json-mode
+  :ensure t)
+
+;;; ansi=color
+
+(use-package ansi-color
+  :ensure t
+  :config
+  (defun my-colorize-compilation-buffer ()
+    (when (eq major-mode 'compilation-mode)
+      (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  :hook (compilation-filter . my-colorize-compilation-buffer))
 
 (provide 'init)
 
