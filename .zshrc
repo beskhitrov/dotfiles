@@ -59,10 +59,9 @@ alias ll='exa -l --all --group'
 alias tm='tidy --markup yes'
 
 for suffix in "html" "css" "js";
-  do alias -s $suffix='emacs'
+  do alias -s $suffix="emacs"
 ;done && unset suffix
 
-LC_MESSAGES='en_US'
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=5000
 HISTSIZE=2000
