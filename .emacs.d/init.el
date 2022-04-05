@@ -30,6 +30,27 @@
 
 ;;; Code:
 
+;;; General
+
+(setq make-backup-files nil)
+(setq create-lockfiles nil)
+(setq auto-save-default nil)
+(delete-selection-mode t)
+
+(menu-bar-mode -1)
+(line-number-mode -1)
+
+(setq display-time-format "⌚%X")
+(setq display-time-interval 1)
+(display-time)
+
+;;; https://github.com/magit/magit
+
+(use-package magit
+  :ensure t)
+
+;;; xterm-color
+
 (use-package xterm-color
   :ensure t
   :config
@@ -46,13 +67,6 @@
 ;(package-refresh-contents)
 ;(package-install 'use-package)
 
-;;; General
-
-(setq make-backup-files nil)
-(setq create-lockfiles nil)
-(setq auto-save-default nil)
-(delete-selection-mode t)
-
 ;;; https://github.com/doomemacs/themes
 
 (use-package doom-themes
@@ -67,15 +81,6 @@
 ;  :ensure t
 ;  :init (add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/themes/"))
 ;  :config (load-theme 'nord t))
-
-;;; Интерфейс
-
-(menu-bar-mode -1)
-(line-number-mode -1)
-
-(setq display-time-format "⌚%X")
-(setq display-time-interval 1)
-(display-time)
 
 ;;; https://github.com/seagle0128/doom-modeline
 
@@ -168,16 +173,19 @@
 (use-package json-mode
   :ensure t)
 
-;;; ansi-color
-
-(use-package ansi-color
-  :ensure t
-  :config
-  (defun my-colorize-compilation-buffer ()
-    (when (eq major-mode 'compilation-mode)
-      (ansi-color-apply-on-region compilation-filter-start (point-max))))
-  :hook (compilation-filter . my-colorize-compilation-buffer))
-
 (provide 'init)
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(use-package diminish yasnippet-snippets xterm-color which-key vscode-icon vscode-dark-plus-theme vscdark-theme vs-dark-theme treemacs react-snippets prettier-js npm-mode nord-theme lsp-mode json-mode flycheck emmet-mode doom-themes doom-modeline company)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
