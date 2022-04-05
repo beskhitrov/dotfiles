@@ -143,6 +143,7 @@
 	 (css-mode . lsp)
 	 (js-mode . lsp)
 	 (lsp-mode . lsp-enable-which-key-integration)
+	 (lsp-mode . npm-mode)
 	 (lsp-mode . yas-minor-mode))
   :commands lsp)
 
@@ -157,6 +158,25 @@
 (use-package prettier-js
   :ensure t
   :hook (js-mode . prettier-js-mode))
+
+;;; npm-mode
+(use-package npm-mode
+  :ensure t)
+
+;;; json-mode
+
+(use-package json-mode
+  :ensure t)
+
+;;; ansi-color
+
+(use-package ansi-color
+  :ensure t
+  :config
+  (defun my-colorize-compilation-buffer ()
+    (when (eq major-mode 'compilation-mode)
+      (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  :hook (compilation-filter . my-colorize-compilation-buffer))
 
 (provide 'init)
 
