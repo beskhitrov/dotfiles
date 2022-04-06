@@ -4,7 +4,7 @@
 
 [[ ! -v SSH_AUTH_SOCK ]] && eval $(ssh-agent) && ssh-add
 
-if [[ $OSTYPE =~ "linux" ]]; then
+if [[ $OSTYPE =~ "linux-gnu" ]]; then
   source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ;fi
@@ -56,11 +56,18 @@ bindkey '^[OA' history-search-backward
 bindkey '^[OB' history-search-forward
 
 alias ll='exa -l --all --group'
+alias tidy='tidy -config .tidyrc'
 alias tm='tidy --markup yes'
+alias prettier='prettier -c'
 
-for suffix in "html" "css" "js";
-  do alias -s $suffix="emacs"
+for suffix in "html" "css" "js" "json";
+  do alias -s $suffix='emacs'
 ;done && unset suffix
+
+export LANG='ru_RU.UTF-8'
+export LC_ALL='ru_RU.UTF-8'
+export LC_MESSAGES='en_US.UTF-8'
+export TERM=xterm-256color
 
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=5000

@@ -10,6 +10,8 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
+;;; https://github.com/jwiegley/use-package
+
 (unless (package-installed-p 'use-package)
   (and (message "Updating packages...")
        (package-refresh-contents)
@@ -32,7 +34,7 @@
 (use-package projectile
   :ensure t
   :init
-  (projectile-mode +1))
+  (projectile-mode t))
 
 ;;; https://github.com/flycheck/flycheck
 
@@ -54,7 +56,8 @@
 ;;; https://github.com/Fanael/rainbow-delimiters
 
 (use-package rainbow-delimiters
-  :ensure t)
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 ;;; https://github.com/emacs-lsp/lsp-mode
 
@@ -77,8 +80,9 @@
 
 ;;; https://github.com/zk-phi/indent-guide
 
-(use-package indent-guide
-  :ensure t)
+;(use-package indent-guide
+;  :ensure t
+;  :hook (prog-mode . indent-guide-mode))
 
 ;;; https://github.com/joshwnj/json-mode
 
@@ -136,7 +140,10 @@
 ;;; https://github.com/mooz/js-doc
 
 (use-package js-doc
-  :ensure t)
+  :ensure t
+  :bind (("C-c d f" . js-doc-insert-function-doc)
+	 ("C-c d o" . js-doc-insert-file-doc)
+	 ("C-c d t" . js-doc-insert-tag)))
 
 ;;; https://github.com/prettier/prettier-emacs
 
@@ -173,7 +180,7 @@
 (setq display-time-interval 1)
 (display-time)
 
-(load-theme 'doom-one t)
+(load-theme 'doom-vibrant t)
 
 ;;; ido-mode
 
@@ -183,13 +190,14 @@
 
 ;;; prog-mode
 
-(defun my-prog-mode-hook ()
-  "Hook for 'prog-mode."
-  (display-line-numbers-mode)
-  (rainbow-delimiters-mode)
-  (indent-guide-mode))
+;(defun my-prog-mode-hook ()
+;  "Hook for 'prog-mode."
+;  (display-line-numbers-mode))
     
-(add-hook 'prog-mode-hook 'my-prog-mode-hook)
+;(add-hook 'prog-mode-hook 'my-prog-mode-hook)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+;(setq js-indent-level 2)
 
 (provide 'init)
 
