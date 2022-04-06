@@ -191,6 +191,16 @@
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
+;;; html-mode
+
+(defun my-prettier-fix ()
+  "Prettier self-closing tags fix."
+  (beginning-of-buffer)
+  (while (re-search-forward " />" nil t)
+    (replace-match ">")))
+
+(add-hook 'html-mode-hook (lambda () (add-hook 'after-save-hook 'my-prettier-fix nil t)))
+
 ;;; js-mode
 
 (setq js-indent-level 2)
