@@ -13,118 +13,118 @@
 ;;; https://github.com/jwiegley/use-package
 
 (unless (package-installed-p 'use-package)
-  (and (message "Updating packages...")
-       (package-refresh-contents)
-       (message "Installing use-package...")
-       (package-install 'use-package)))
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
 
 ;;; https://github.com/magit/magit
 
-(use-package magit
-  :ensure t)
+(use-package magit)
 
 ;;; https://github.com/company-mode/company-mode
 
 (use-package company
-  :ensure t
-  :init (global-company-mode))
+  :init
+  (global-company-mode))
 
 ;;; https://github.com/bbatsov/projectile
 
 (use-package projectile
-  :ensure t
   :init
   (projectile-mode t))
 
 ;;; https://github.com/flycheck/flycheck
 
 (use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
+  :init
+  (global-flycheck-mode))
 
 ;;; https://github.com/joaotavora/yasnippet
 
 (use-package yasnippet
-  :ensure t)
+  :hook
+  (prog-mode . yas-minor-mode))
 
 ;;; https://github.com/justbur/emacs-which-key
 
 (use-package which-key
-  :ensure t
-  :config (which-key-mode))
+  :config
+  (which-key-mode))
+
+;;; https://github.com/magnars/expand-region.el
+(setq alphabet-start "abc def")
+
+(use-package expand-region
+  :bind
+  ("C-c e r" . er/expand-region))
 
 ;;; https://github.com/Fanael/rainbow-delimiters
 
 (use-package rainbow-delimiters
-  :ensure t
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
 ;;; https://github.com/emacs-lsp/lsp-mode
 
 (use-package lsp-mode
-  :ensure t
-  :init (setq lsp-keymap-prefix "C-c l"
-	      lsp-headerline-breadcrumb-enable nil)
-  :hook ((html-mode . lsp)
-	 (css-mode . lsp)
-	 (js-mode . lsp)
-	 (lsp-mode . lsp-enable-which-key-integration)
-	 (lsp-mode . npm-mode)
-	 (lsp-mode . yas-minor-mode))
+  :init
+  (setq lsp-keymap-prefix "C-c l"
+	lsp-headerline-breadcrumb-enable nil)
+  :hook
+  ((html-mode . lsp)
+   (css-mode . lsp)
+   (js-mode . lsp)
+   (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
 ;;; https://github.com/Alexander-Miller/treemacs
 
-(use-package treemacs
-  :ensure t)
-
-;;; https://github.com/zk-phi/indent-guide
-
-;(use-package indent-guide
-;  :ensure t
-;  :hook (prog-mode . indent-guide-mode))
+(use-package treemacs)
 
 ;;; https://github.com/joshwnj/json-mode
 
-(use-package json-mode
-  :ensure t)
+(use-package json-mode)
 
 ;;; https://github.com/AndreaCrotti/yasnippet-snippets
 
-(use-package yasnippet-snippets
-  :ensure t)
+(use-package yasnippet-snippets)
 
 ;;; https://github.com/seagle0128/doom-modeline
 
 (use-package doom-modeline
-  :ensure t
-  :config (doom-modeline-mode 1))
+  :config
+  (doom-modeline-mode 1))
 
 ;;; https://github.com/doomemacs/themes
 
 (use-package doom-themes
-  :ensure t
   :config
   (doom-themes-treemacs-config))
 
 ;;; https://github.com/nex3/sass-mode
 
-(use-package sass-mode
-  :ensure t)
+(use-package sass-mode)
 
 ;;; https://github.com/smihica/emmet-mode
 
 (use-package emmet-mode
-  :ensure t
-  :hook ((sgml-mode . emmet-mode)
-	 (css-mode . emmet-mode)
-	 (js-mode . emmet-mode))
-  :config (setq emmet-indent-after-insert nil))
+  :hook
+  ((sgml-mode . emmet-mode)
+   (css-mode . emmet-mode)
+   (js-mode . emmet-mode))
+  :config
+  (setq emmet-indent-after-insert nil))
+
+;;; https://github.com/js-emacs/js2-refactor.el
+
+(use-package js2-refactor
+  :hook
+  (js-mode . js2-refactor-mode))
 
 ;;; xterm-color
 
 (use-package xterm-color
-  :ensure t
   :config
   (setq compilation-environment '("TERM=xterm-256color"))
   (defun my/advice-compilation-filter (f proc string)
@@ -134,37 +134,36 @@
 ;;; https://github.com/creichert/ido-vertical-mode.el
 
 (use-package ido-vertical-mode
-  :ensure t
-  :config (ido-vertical-mode))
+  :config
+  (ido-vertical-mode))
 
 ;;; https://github.com/mooz/js-doc
 
 (use-package js-doc
-  :ensure t
-  :bind (("C-c d f" . js-doc-insert-function-doc)
-	 ("C-c d o" . js-doc-insert-file-doc)
-	 ("C-c d t" . js-doc-insert-tag)))
+  :bind
+  (("C-c d f" . js-doc-insert-function-doc)
+   ("C-c d o" . js-doc-insert-file-doc)
+   ("C-c d t" . js-doc-insert-tag)))
 
 ;;; https://github.com/prettier/prettier-emacs
 
 (use-package prettier-js
-  :ensure t
-  :hook (js-mode . prettier-js-mode))
+  :hook
+  (js-mode . prettier-js-mode))
 
 ;;; npm-mode
 
 (use-package npm-mode
-  :ensure t)
+  :hook
+  (prog-mode . npm-mode))
 
 ;;; https://www.nordtheme.com/
 
-(use-package nord-theme
-  :ensure t)
+(use-package nord-theme)
 
 ;;; https://github.com/johnmastro/react-snippets.el
 
-(use-package react-snippets
-  :ensure t)
+(use-package react-snippets)
 
 ;;; General
 
@@ -190,14 +189,11 @@
 
 ;;; prog-mode
 
-;(defun my-prog-mode-hook ()
-;  "Hook for 'prog-mode."
-;  (display-line-numbers-mode))
-    
-;(add-hook 'prog-mode-hook 'my-prog-mode-hook)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
-;(setq js-indent-level 2)
+;;; js-mode
+
+(setq js-indent-level 2)
 
 (provide 'init)
 

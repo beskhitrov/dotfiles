@@ -21,16 +21,16 @@ if [[ $OSTYPE =~ "darwin" ]]; then
 
 source ~/bin/z.sh
 
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=* r:|=*'
+zstyle ":completion:*" matcher-list "m:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=* r:|=*"
 
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
-RPROMPT='${vcs_info_msg_0_} %8F%*%f %(!.%F{red}%n%f.%n)'
-zstyle ':vcs_info:git:*' formats '%8F%s:%b%f'
+RPROMPT="${vcs_info_msg_0_} %8F%*%f %(!.%F{red}%n%f.%n)"
+zstyle ":vcs_info:git:*" formats "%8F%s:%b%f"
 
-PROMPT='%F{yellow}%m%f:%F{green}%1~%f %# '
+PROMPT="%F{yellow}%m%f:%F{green}%1~%f %# "
 TMOUT=1; TRAPALRM() { zle reset-prompt }
 precmd() { print "" }
 
@@ -52,22 +52,17 @@ setopt NO_BEEP
 setopt NO_CASE_GLOB
 setopt SHARE_HISTORY
 
-bindkey '^[OA' history-search-backward
-bindkey '^[OB' history-search-forward
+bindkey "^[OA" history-search-backward
+bindkey "^[OB" history-search-forward
 
-alias ll='exa -l --all --group'
-alias tidy='tidy -config .tidyrc'
-alias tm='tidy --markup yes'
-alias prettier='prettier -c'
+alias ll="exa -l --all --group"
 
 for suffix in "html" "css" "js" "json";
-  do alias -s $suffix='emacs'
+  do alias -s $suffix="emacs"
 ;done && unset suffix
 
-export LANG='ru_RU.UTF-8'
-export LC_ALL='ru_RU.UTF-8'
-export LC_MESSAGES='en_US.UTF-8'
-export TERM=xterm-256color
+export LC_MESSAGES="en_US.UTF-8"
+export TERM="xterm-256color"
 
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=5000
