@@ -13,6 +13,7 @@
 ;;; https://github.com/jwiegley/use-package
 
 (unless (package-installed-p 'use-package)
+  (package-refresh-contents)
   (package-install 'use-package))
 
 (require 'use-package)
@@ -76,7 +77,7 @@
    (css-mode . lsp)
    (js-mode . lsp)
    (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp)
+   :commands lsp)
 
 ;;; https://github.com/Alexander-Miller/treemacs
 
@@ -195,15 +196,25 @@
 
 (defun my-prettier-fix ()
   "Prettier self-closing tags fix."
-  (beginning-of-buffer)
+  (interactive)
+  (prettier-js)
+  (goto-char (point-min))
   (while (re-search-forward " />" nil t)
-    (replace-match ">")))
+    (replace-match ">"))
+  (save-buffer))
 
-(add-hook 'html-mode-hook (lambda () (add-hook 'after-save-hook 'my-prettier-fix nil t)))
+(add-hook 'html-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-x C-s") 'my-prettier-fix)
+	    (flycheck-add-next-checker 'lsp 'html-tidy)))
 
 ;;; js-mode
 
 (setq js-indent-level 2)
+
+(add-hook 'js-mode-hook
+	  (lambda ()
+	    (flycheck-add-next-checker 'lsp 'javascript-eslint)))
 
 (provide 'init)
 
