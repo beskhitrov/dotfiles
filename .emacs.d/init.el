@@ -47,14 +47,21 @@
   :hook
   (prog-mode . yas-minor-mode))
 
+;;; https://github.com/abo-abo/avy
+
+(use-package avy)
+
 ;;; https://github.com/justbur/emacs-which-key
 
 (use-package which-key
   :config
   (which-key-mode))
 
+;;; https://github.com/abo-abo/hydra
+
+(use-package hydra)
+
 ;;; https://github.com/magnars/expand-region.el
-(setq alphabet-start "abc def")
 
 (use-package expand-region
   :bind
@@ -71,7 +78,9 @@
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l"
-	lsp-headerline-breadcrumb-enable nil)
+	lsp-headerline-breadcrumb-enable nil
+	lsp-diagnostics-provider :none
+	lsp-completion-provider :none)
   :hook
   ((html-mode . lsp)
    (css-mode . lsp)
@@ -117,6 +126,14 @@
   :config
   (setq emmet-indent-after-insert nil))
 
+;;; https://github.com/emacs-lsp/lsp-treemacs
+
+(use-package lsp-treemacs)
+
+;;; https://github.com/emacs-lsp/dap-mode
+
+(use-package dap-mode)
+
 ;;; https://github.com/js-emacs/js2-refactor.el
 
 (use-package js2-refactor
@@ -138,6 +155,10 @@
   :config
   (ido-vertical-mode))
 
+;;; https://github.com/brotzeit/helm-xref
+
+(use-package helm-xref)
+
 ;;; https://github.com/mooz/js-doc
 
 (use-package js-doc
@@ -152,7 +173,11 @@
   :hook
   (js-mode . prettier-js-mode))
 
-;;; npm-mode
+;;; https://github.com/emacs-lsp/helm-lsp
+
+(use-package helm-lsp)
+
+;;; https://github.com/mojochao/npm-mode
 
 (use-package npm-mode
   :hook
@@ -205,16 +230,12 @@
 
 (add-hook 'html-mode-hook
 	  (lambda ()
-	    (local-set-key (kbd "C-x C-s") 'my-prettier-fix)
-	    (flycheck-add-next-checker 'lsp 'html-tidy)))
+	    (local-set-key (kbd "C-x C-s") 'my-prettier-fix)))
 
 ;;; js-mode
 
 (setq js-indent-level 2)
 
-(add-hook 'js-mode-hook
-	  (lambda ()
-	    (flycheck-add-next-checker 'lsp 'javascript-eslint)))
 
 (provide 'init)
 

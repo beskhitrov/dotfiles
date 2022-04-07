@@ -1,0 +1,3 @@
+alias tidy="tidy -config .tidyrc"
+alias tm="tidy --markup yes"
+alias prettier="prettier -c"
