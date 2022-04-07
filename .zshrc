@@ -19,7 +19,7 @@ if [[ $OSTYPE =~ "darwin" ]]; then
   ;fi
 ;fi
 
-source ~/bin/z.sh
+#source ~/bin/z.sh
 
 zstyle ":completion:*" matcher-list "m:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=* r:|=*"
 
