@@ -13,7 +13,8 @@ if [[ $OSTYPE =~ "darwin" ]]; then
   source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/local/etc/profile.d/z.sh
 
-  alias brew="sudo -Hu admin brew"
+  alias brew='sudo -Hu admin brew'
+  alias postgres='sudo -Hu admin postgres -D /usr/local/var/postgres'
 
   if type brew &>/dev/null; then
     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
