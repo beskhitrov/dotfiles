@@ -6,6 +6,7 @@
 
 ;;; https://melpa.org/
 
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -198,8 +199,20 @@
 (setq auto-save-default nil)
 (delete-selection-mode t)
 
+(add-hook 'text-mode-hook 'auto-fill-mode)
+
 (menu-bar-mode -1)
 (line-number-mode -1)
+
+(if window-system
+    (progn
+      (add-to-list 'default-frame-alist
+      		   '(font . "Hack Nerd Font Mono-16"))
+      (menu-bar-mode)
+      (scroll-bar-mode -1)
+      (tool-bar-mode -1)
+      (toggle-frame-fullscreen)
+      (setq inhibit-splash-screen t)))
 
 (setq display-time-format "⌚%X")
 (setq display-time-interval 1)

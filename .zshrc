@@ -11,10 +11,6 @@ if [[ $OSTYPE =~ "linux-gnu" ]]; then
 
 if [[ $OSTYPE =~ "darwin" ]]; then
   source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  source /usr/local/etc/profile.d/z.sh
-
-  alias brew='sudo -Hu admin brew'
-  alias postgres='sudo -Hu admin postgres -D /usr/local/var/postgres'
 
   if type brew &>/dev/null; then
     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
@@ -56,7 +52,7 @@ setopt SHARE_HISTORY
 bindkey "^[OA" history-search-backward
 bindkey "^[OB" history-search-forward
 
-alias ll="exa -l --all --group"
+alias ll="ls -la"
 
 for suffix in "html" "css" "js" "json";
   do alias -s $suffix="emacs"
