@@ -58,6 +58,10 @@ for suffix in "html" "css" "js" "json";
   do alias -s $suffix="emacs"
 ;done && unset suffix
 
+typeset -u path PATH
+path=(~/bin $path)
+#export PATH
+
 export LC_MESSAGES="en_US.UTF-8"
 export TERM="xterm-256color"
 

@@ -6,7 +6,6 @@
 
 ;;; https://melpa.org/
 
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -40,6 +39,7 @@
 
 (use-package flycheck
   :init
+  (setq flycheck-sql-sqlint-executable "/usr/local/lib/ruby/gems/3.1.0/bin/sqlint")
   (global-flycheck-mode))
 
 ;;; https://github.com/joaotavora/yasnippet
@@ -88,6 +88,12 @@
    (js-mode . lsp)
    (lsp-mode . lsp-enable-which-key-integration))
    :commands lsp)
+
+;;; exec-path-from-shell
+
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize))
 
 ;;; https://github.com/Alexander-Miller/treemacs
 
@@ -184,6 +190,15 @@
   :hook
   (prog-mode . npm-mode))
 
+;;; https://github.com/purcell/sqlformat
+
+(use-package sqlformat
+  :commands (sqlformat sqlformat-buffer sqlformat-region)
+  :hook (sql-mode . sqlformat-on-save-mode)
+  :init
+  (setq sqlformat-command 'pgformatter
+        sqlformat-args '("-L" "-s2" "-W1")))
+
 ;;; https://www.nordtheme.com/
 
 (use-package nord-theme)
@@ -201,24 +216,32 @@
 
 (add-hook 'text-mode-hook 'auto-fill-mode)
 
-(menu-bar-mode -1)
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq confirm-nonexistent-file-or-buffer nil)
+(setq ido-create-new-buffer 'always)
+(setq kill-buffer-query-functions
+  (remq 'process-kill-buffer-query-function
+         kill-buffer-query-functions))
+
 (line-number-mode -1)
 
 (if window-system
     (progn
+      (load-theme 'doom-one t)
       (add-to-list 'default-frame-alist
       		   '(font . "Hack Nerd Font Mono-16"))
-      (menu-bar-mode)
       (scroll-bar-mode -1)
       (tool-bar-mode -1)
       (toggle-frame-fullscreen)
-      (setq inhibit-splash-screen t)))
+      (setq inhibit-startup-message t
+	    inhibit-startup-echo-area-message t))
+  (progn
+    (load-theme 'nord t)
+    (menu-bar-mode -1)))
 
 (setq display-time-format "⌚%X")
 (setq display-time-interval 1)
 (display-time)
-
-(load-theme 'doom-vibrant t)
 
 ;;; ido-mode
 
@@ -248,6 +271,15 @@
 ;;; js-mode
 
 (setq js-indent-level 2)
+
+;;; sql-mode
+
+(require 'sql)
+(defalias 'sql-get-login 'ignore)
+
+(add-hook 'sql-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-c C-p") 'sql-postgres)))
 
 
 (provide 'init)
