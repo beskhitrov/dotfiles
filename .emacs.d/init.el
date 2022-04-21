@@ -171,6 +171,11 @@
 ;; https://github.com/mooz/js-doc
 
 (use-package js-doc
+  :config
+  (setq
+   js-doc-mail-address "beskhitrov@gmail.com"
+   js-doc-author (format "Kirill Beskhitrov <%s>" js-doc-mail-address)
+   js-doc-license "MIT")
   :bind
   (("C-c d f" . js-doc-insert-function-doc)
    ("C-c d o" . js-doc-insert-file-doc)
@@ -216,7 +221,7 @@
 (setq auto-save-default nil)
 (delete-selection-mode t)
 
-(add-hook 'text-mode-hook 'auto-fill-mode)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq confirm-nonexistent-file-or-buffer nil)
