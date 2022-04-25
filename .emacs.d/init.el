@@ -191,6 +191,18 @@
 
 (use-package helm-lsp)
 
+;; https://github.com/abicky/nodejs-repl.el
+
+(use-package nodejs-repl
+  :hook
+  (js-mode . (lambda ()
+               (define-key js-mode-map (kbd "C-x C-e") 'nodejs-repl-send-last-expression)
+               (define-key js-mode-map (kbd "C-c C-j") 'nodejs-repl-send-line)
+               (define-key js-mode-map (kbd "C-c C-r") 'nodejs-repl-send-region)
+               (define-key js-mode-map (kbd "C-c C-c") 'nodejs-repl-send-buffer)
+               (define-key js-mode-map (kbd "C-c C-l") 'nodejs-repl-load-file)
+               (define-key js-mode-map (kbd "C-c C-z") 'nodejs-repl-switch-to-repl))))
+
 ;; https://github.com/mojochao/npm-mode
 
 (use-package npm-mode
@@ -230,9 +242,6 @@
   (remq 'process-kill-buffer-query-function
          kill-buffer-query-functions))
 
-(line-number-mode -1)
-(column-number-mode)
-
 (if window-system
     (progn
       (load-theme 'doom-vibrant t)
@@ -247,9 +256,18 @@
     (load-theme 'nord t)
     (menu-bar-mode -1)))
 
+(column-number-mode)
+
 (setq display-time-format "⌚%X")
 (setq display-time-interval 1)
 (display-time)
+
+(defun my-term ()
+  "Start Z shell."
+  (interactive)
+  (term "/usr/local/bin/zsh"))
+
+(global-set-key (kbd "C-c t") 'my-term)
 
 ;; ido-mode
 
