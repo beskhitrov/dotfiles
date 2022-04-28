@@ -60,10 +60,6 @@
   :config
   (which-key-mode))
 
-;; https://github.com/abo-abo/hydra
-
-(use-package hydra)
-
 ;; https://github.com/magnars/expand-region.el
 
 (use-package expand-region
@@ -101,6 +97,15 @@
 
 (use-package treemacs)
 
+;; https://github.com/magnars/multiple-cursors.el
+
+(use-package multiple-cursors
+  :init
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
+
 ;; https://github.com/joshwnj/json-mode
 
 (use-package json-mode)
@@ -134,10 +139,6 @@
    (js-mode . emmet-mode))
   :config
   (setq emmet-indent-after-insert nil))
-
-;; https://github.com/emacs-lsp/lsp-treemacs
-
-(use-package lsp-treemacs)
 
 ;; https://github.com/emacs-lsp/dap-mode
 
@@ -185,6 +186,8 @@
 
 (use-package prettier-js
   :hook
+					;  (html-mode . prettier-js-mode)
+  (css-mode . prettier-js-mode)
   (js-mode . prettier-js-mode))
 
 ;; https://github.com/emacs-lsp/helm-lsp
@@ -199,7 +202,7 @@
                (define-key js-mode-map (kbd "C-x C-e") 'nodejs-repl-send-last-expression)
                (define-key js-mode-map (kbd "C-c C-j") 'nodejs-repl-send-line)
                (define-key js-mode-map (kbd "C-c C-r") 'nodejs-repl-send-region)
-               (define-key js-mode-map (kbd "C-c C-c") 'nodejs-repl-send-buffer)
+	       (define-key js-mode-map (kbd "C-c C-b") 'nodejs-repl-send-buffer)
                (define-key js-mode-map (kbd "C-c C-l") 'nodejs-repl-load-file)
                (define-key js-mode-map (kbd "C-c C-z") 'nodejs-repl-switch-to-repl))))
 
@@ -217,10 +220,6 @@
   :init
   (setq sqlformat-command 'pgformatter
         sqlformat-args '("-L" "-s2" "-W1")))
-
-;; https://github.com/arcticicestudio/nord
-
-(use-package nord-theme)
 
 ;; https://github.com/johnmastro/react-snippets.el
 
@@ -244,7 +243,6 @@
 
 (if window-system
     (progn
-      (load-theme 'doom-vibrant t)
       (add-to-list 'default-frame-alist
       		   '(font . "BlexMono Nerd Font-16"))
       (scroll-bar-mode -1)
@@ -253,19 +251,19 @@
       (setq inhibit-startup-message t
 	    inhibit-startup-echo-area-message t))
   (progn
-    (load-theme 'nord t)
     (menu-bar-mode -1)))
 
+(load-theme 'doom-one t)
 (column-number-mode)
 
-(setq display-time-format "⌚%X")
+(setq display-time-format (concat (all-the-icons-faicon "code") " %X "))
 (setq display-time-interval 1)
 (display-time)
 
 (defun my-term ()
   "Start Z shell."
   (interactive)
-  (term "/usr/local/bin/zsh"))
+  (ansi-term "/usr/local/bin/zsh"))
 
 (global-set-key (kbd "C-c t") 'my-term)
 
@@ -292,9 +290,9 @@
 
 (add-hook 'mhtml-mode-hook
 	  (lambda ()
-	    (local-set-key (kbd "C-x C-s") 'my-prettier-fix)))
+	    (local-set-key (kbd "C-c C-p") 'my-prettier-fix)))
 
-(add-to-list 'auto-mode-alist '("\\.handlebars\\'" . mhtml-mode))
+;; (add-to-list 'auto-mode-alist '("\\.handlebars\\'" . mhtml-mode))
 
 ;; js-mode
 
@@ -313,3 +311,16 @@
 (provide 'init)
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "76ed126dd3c3b653601ec8447f28d8e71a59be07d010cd96c55794c3008df4d7" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" default)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
