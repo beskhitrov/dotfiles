@@ -12,7 +12,7 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-;; https://github.com/jwiegley/use-package
+;; https://melpa.org/#/use-package
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -110,6 +110,10 @@
 
 (use-package json-mode)
 
+;; https://github.com/emacs-lsp/lsp-ui
+
+(use-package lsp-ui)
+
 ;; https://github.com/AndreaCrotti/yasnippet-snippets
 
 (use-package yasnippet-snippets)
@@ -186,7 +190,6 @@
 
 (use-package prettier-js
   :hook
-					;  (html-mode . prettier-js-mode)
   (css-mode . prettier-js-mode)
   (js-mode . prettier-js-mode))
 
@@ -232,7 +235,11 @@
 (setq auto-save-default nil)
 (delete-selection-mode t)
 
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(put 'downcase-region 'disabled nil)
+
+(add-hook 'text-mode-hook
+	  (lambda ()
+	    (turn-on-auto-fill)))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq confirm-nonexistent-file-or-buffer nil)
@@ -275,9 +282,12 @@
 
 ;; prog-mode
 
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook
+	  (lambda ()
+	    (display-line-numbers-mode)
+	    (goto-address-mode)))
 
-;; mhtml-mode
+;; html-mode
 
 (defun my-prettier-fix ()
   "Prettier HTML self-closing tags fix."
@@ -288,11 +298,11 @@
     (replace-match ">"))
   (save-buffer))
 
-(add-hook 'mhtml-mode-hook
+(add-hook 'html-mode-hook
 	  (lambda ()
-	    (local-set-key (kbd "C-c C-p") 'my-prettier-fix)))
+	    (local-set-key (kbd "C-x C-s") 'my-prettier-fix)))
 
-;; (add-to-list 'auto-mode-alist '("\\.handlebars\\'" . mhtml-mode))
+(add-to-list 'auto-mode-alist '("\\.hbs\\'" . mhtml-mode))
 
 ;; js-mode
 
@@ -311,16 +321,3 @@
 (provide 'init)
 
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "76ed126dd3c3b653601ec8447f28d8e71a59be07d010cd96c55794c3008df4d7" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" default)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
