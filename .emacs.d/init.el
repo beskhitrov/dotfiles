@@ -106,6 +106,14 @@
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
+;; https://melpa.org/#/org-bullets
+
+(use-package org-bullets
+  :init
+  (setq org-bullets-bullet-list '("►" "●" "◉" "○" "•"))
+  :hook
+  (org-mode . org-bullets-mode))
+
 ;; https://github.com/joshwnj/json-mode
 
 (use-package json-mode)
@@ -236,6 +244,7 @@
 (delete-selection-mode t)
 
 (put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
 
 (add-hook 'text-mode-hook
 	  (lambda ()
@@ -279,6 +288,15 @@
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
+
+;; org-mode
+
+(setq org-hide-emphasis-markers t)
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((shell . t)
+   (js . t)))
 
 ;; prog-mode
 
