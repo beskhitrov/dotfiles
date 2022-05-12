@@ -1,4 +1,4 @@
-;;; init.el --- GNU Emacs init file  -*- lexical-binding: t -*-
+;; init.el --- GNU Emacs init file  -*- lexical-binding: t -*-
 
 ;; Author: Kirill Beskhitrov <beskhitrov@gmail.com>
 
@@ -33,7 +33,7 @@
 
 ;; https://github.com/bbatsov/projectile
 
-(use-package projectile
+ (use-package projectile
   :init
   (projectile-mode t))
 
@@ -110,7 +110,7 @@
 
 (use-package org-bullets
   :init
-  (setq org-bullets-bullet-list '("►" "●" "◉" "○" "•"))
+  (setq org-bullets-bullet-list '("•"))
   :hook
   (org-mode . org-bullets-mode))
 
@@ -217,7 +217,15 @@
                (define-key js-mode-map (kbd "C-c C-l") 'nodejs-repl-load-file)
                (define-key js-mode-map (kbd "C-c C-z") 'nodejs-repl-switch-to-repl))))
 
-;; https://github.com/mojochao/npm-mode
+;; https://melpa.org/#/org-journal
+
+(use-package org-journal
+  :config
+  (setq org-journal-file-type 'yearly)
+  :bind
+  ("C-c j n" . org-journal-new-date-entry))
+
+;; https://melpa.org/#/npm-mode
 
 (use-package npm-mode
   :hook
@@ -238,6 +246,8 @@
 
 ;; General
 
+(set-locale-environment "ru_RU.UTF-8")
+
 (setq make-backup-files nil)
 (setq create-lockfiles nil)
 (setq auto-save-default nil)
@@ -252,7 +262,7 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq confirm-nonexistent-file-or-buffer nil)
-(setq ido-create-new-buffer 'always)
+
 (setq kill-buffer-query-functions
   (remq 'process-kill-buffer-query-function
          kill-buffer-query-functions))
@@ -272,9 +282,16 @@
 (load-theme 'doom-one t)
 (column-number-mode)
 
+;; date & time
+
 (setq display-time-format (concat (all-the-icons-faicon "code") " %X "))
 (setq display-time-interval 1)
 (display-time)
+
+(setq calendar-week-start-day 1)
+(global-set-key (kbd "C-c c") 'calendar)
+
+;; ansi-term
 
 (defun my-term ()
   "Start Z shell."
@@ -286,17 +303,25 @@
 ;; ido-mode
 
 (ido-mode t)
+(setq ido-create-new-buffer 'always)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 
 ;; org-mode
 
 (setq org-hide-emphasis-markers t)
+(setq org-pretty-entities t)
 
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((shell . t)
    (js . t)))
+
+(add-hook 'org-mode-hook
+	  (lambda ()
+	    (org-indent-mode)))
+
+(add-to-list 'org-src-lang-modes (cons "jsx" 'js-jsx))
 
 ;; prog-mode
 
