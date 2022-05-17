@@ -138,6 +138,16 @@
   :config
   (doom-themes-treemacs-config))
 
+;; https://melpa.org/#/org-pomodoro
+
+(use-package org-pomodoro
+  :config
+  (setq
+   org-pomodoro-length 60
+   org-pomodoro-short-break-length 5)
+  :bind
+  ("C-c p" . org-pomodoro))
+
 ;; https://github.com/nex3/sass-mode
 
 (use-package sass-mode)
@@ -256,16 +266,14 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
-(add-hook 'text-mode-hook
-	  (lambda ()
-	    (turn-on-auto-fill)))
-
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq confirm-nonexistent-file-or-buffer nil)
 
 (setq kill-buffer-query-functions
   (remq 'process-kill-buffer-query-function
          kill-buffer-query-functions))
+
+;; Window system
 
 (if window-system
     (progn
@@ -284,7 +292,7 @@
 
 ;; date & time
 
-(setq display-time-format (concat (all-the-icons-faicon "code") " %X "))
+(setq display-time-format " %X ")
 (setq display-time-interval 1)
 (display-time)
 
@@ -300,6 +308,12 @@
 
 (global-set-key (kbd "C-c t") 'my-term)
 
+;; text-mode
+
+(add-hook 'text-mode-hook
+	  (lambda ()
+	    (turn-on-auto-fill)))
+
 ;; ido-mode
 
 (ido-mode t)
@@ -310,7 +324,6 @@
 ;; org-mode
 
 (setq org-hide-emphasis-markers t)
-(setq org-pretty-entities t)
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -322,6 +335,8 @@
 	    (org-indent-mode)))
 
 (add-to-list 'org-src-lang-modes (cons "jsx" 'js-jsx))
+
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 1.8))
 
 ;; prog-mode
 
@@ -343,6 +358,7 @@
 
 (add-hook 'html-mode-hook
 	  (lambda ()
+	    (hs-minor-mode)
 	    (local-set-key (kbd "C-x C-s") 'my-prettier-fix)))
 
 (add-to-list 'auto-mode-alist '("\\.hbs\\'" . mhtml-mode))
