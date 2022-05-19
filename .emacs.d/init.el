@@ -347,13 +347,17 @@
 
 ;; html-mode
 
-(defun my-prettier-fix ()
-  "Prettier HTML self-closing tags fix."
+(defun my-prettier-fix (arg)
+  "Prettier HTML self-closing tags and DOCTYPE fix."
   (interactive)
   (prettier-js)
   (goto-char (point-min))
   (while (re-search-forward " />" nil t)
     (replace-match ">"))
+  (if arg
+      (progn
+	(goto-char (point-min))
+	(insert "<!DOCTYPE html>\n")))
   (save-buffer))
 
 (add-hook 'html-mode-hook
