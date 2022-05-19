@@ -347,9 +347,9 @@
 
 ;; html-mode
 
-(defun my-prettier-fix (arg)
-  "Prettier HTML self-closing tags and DOCTYPE fix."
-  (interactive)
+(defun my-prettier-fix (&optional arg)
+  "HTML self-closing tags fix and DOCTYPE fix if ARG."
+  (interactive "P")
   (prettier-js)
   (goto-char (point-min))
   (while (re-search-forward " />" nil t)
