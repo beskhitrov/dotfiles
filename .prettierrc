@@ -1,0 +1,15 @@
+{
+  "singleQuote": true,
+  "tabWidth": 2,
+  "overrides": [
+    {
+      "files": ["**/*.html"],
+      "options": {
+        "tabWidth": 2,
+        "bracketSameLine": true,
+        "singleAttributePerLine": false,
+        "printWidth": 120
+      }
+    }
+  ]
+}

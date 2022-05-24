@@ -130,7 +130,8 @@
 
 (use-package doom-modeline
   :config
-  (doom-modeline-mode 1))
+  (doom-modeline-mode 1)
+  (setq doom-modeline-buffer-encoding nil))
 
 ;; https://github.com/doomemacs/themes
 
@@ -294,6 +295,7 @@
 
 (setq display-time-format " %X ")
 (setq display-time-interval 1)
+(setq display-time-default-load-average nil)
 (display-time)
 
 (setq calendar-week-start-day 1)
