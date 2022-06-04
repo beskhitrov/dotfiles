@@ -325,7 +325,8 @@
 
 ;; org-mode
 
-(setq org-hide-emphasis-markers t)
+(setq org-hide-emphasis-markers t)	; Отображать разметку без окружающих спецсимволов.
+(setq org-html-doctype "html5")
 
 (org-babel-do-load-languages
  'org-babel-load-languages
