@@ -182,6 +182,10 @@
     (funcall f proc (xterm-color-filter string)))
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
 
+;; https://github.com/emacs-typescript/typescript.el
+
+(use-package typescript-mode)
+
 ;; https://github.com/creichert/ido-vertical-mode.el
 
 (use-package ido-vertical-mode
