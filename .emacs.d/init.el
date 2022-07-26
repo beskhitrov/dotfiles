@@ -182,6 +182,10 @@
     (funcall f proc (xterm-color-filter string)))
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
 
+;; https://github.com/emacs-typescript/typescript.el
+
+(use-package typescript-mode)
+
 ;; https://github.com/creichert/ido-vertical-mode.el
 
 (use-package ido-vertical-mode
@@ -350,7 +354,8 @@
 
 ;; org-mode
 
-(setq org-hide-emphasis-markers t)
+(setq org-hide-emphasis-markers t)	; Отображать разметку без окружающих спецсимволов.
+(setq org-html-doctype "html5")
 
 (org-babel-do-load-languages
  'org-babel-load-languages
