@@ -182,10 +182,6 @@
     (funcall f proc (xterm-color-filter string)))
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
 
-;; https://github.com/emacs-typescript/typescript.el
-
-(use-package typescript-mode)
-
 ;; https://github.com/creichert/ido-vertical-mode.el
 
 (use-package ido-vertical-mode
@@ -214,7 +210,8 @@
 (use-package prettier-js
   :hook
   (css-mode . prettier-js-mode)
-  (js-mode . prettier-js-mode))
+  (js-mode . prettier-js-mode)
+  (typescript-mode . prettier-js-mode))
 
 ;; https://github.com/emacs-lsp/helm-lsp
 
@@ -318,6 +315,7 @@
     (menu-bar-mode -1)))
 
 (load-theme 'doom-one t)
+
 (column-number-mode)
 
 ;; date & time
@@ -354,8 +352,7 @@
 
 ;; org-mode
 
-(setq org-hide-emphasis-markers t)	; Отображать разметку без окружающих спецсимволов.
-(setq org-html-doctype "html5")
+(setq org-hide-emphasis-markers t)
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -375,6 +372,7 @@
 (add-hook 'prog-mode-hook
 	  (lambda ()
 	    (display-line-numbers-mode)
+	    (electric-pair-mode)
 	    (goto-address-mode)))
 
 ;; html-mode
@@ -414,5 +412,3 @@
 
 
 (provide 'init)
-
-;;; init.el ends here
