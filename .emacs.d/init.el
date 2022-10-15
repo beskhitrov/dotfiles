@@ -149,6 +149,18 @@
   :bind
   ("C-c p" . org-pomodoro))
 
+;; https://melpa.org/#/org-download
+
+(use-package org-download)
+
+;; https://melpa.org/#/org-superstar
+
+(use-package org-superstar
+  :config
+  (setq
+   org-superstar-remove-leading-stars t
+   org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")))
+
 ;; https://github.com/nex3/sass-mode
 
 (use-package sass-mode)
@@ -182,6 +194,10 @@
     (funcall f proc (xterm-color-filter string)))
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
 
+;; https://github.com/emacs-typescript/typescript.el
+
+(use-package typescript-mode)
+
 ;; https://github.com/creichert/ido-vertical-mode.el
 
 (use-package ido-vertical-mode
@@ -210,8 +226,7 @@
 (use-package prettier-js
   :hook
   (css-mode . prettier-js-mode)
-  (js-mode . prettier-js-mode)
-  (typescript-mode . prettier-js-mode))
+  (js-mode . prettier-js-mode))
 
 ;; https://github.com/emacs-lsp/helm-lsp
 
@@ -256,31 +271,6 @@
 
 (use-package react-snippets)
 
-(use-package tree-sitter
-  :config
-  ;; activate tree-sitter on any buffer containing code for which it has a parser available
-  (global-tree-sitter-mode)
-  ;; you can easily see the difference tree-sitter-hl-mode makes for python, ts or tsx
-  ;; by switching on and off
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-
-(use-package tree-sitter-langs
-  :after tree-sitter)
-
-(use-package typescript-mode
-  :after tree-sitter
-  :config
-  ;; we choose this instead of tsx-mode so that eglot can automatically figure out language for server
-  ;; see https://github.com/joaotavora/eglot/issues/624 and https://github.com/joaotavora/eglot#handling-quirky-servers
-  (define-derived-mode typescriptreact-mode typescript-mode
-    "TypeScript TSX")
-
-  ;; use our derived mode for tsx files
-  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
-  ;; by default, typescript-mode is mapped to the treesitter typescript parser
-  ;; use our derived mode to map both .tsx AND .ts -> typescriptreact-mode -> treesitter tsx
-  (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
-
 ;; General
 
 (set-locale-environment "ru_RU.UTF-8")
@@ -308,14 +298,13 @@
       		   '(font . "BlexMono Nerd Font-16"))
       (scroll-bar-mode -1)
       (tool-bar-mode -1)
-      ;; (toggle-frame-fullscreen)
+      (toggle-frame-fullscreen)
       (setq inhibit-startup-message t
 	    inhibit-startup-echo-area-message t))
   (progn
     (menu-bar-mode -1)))
 
-(load-theme 'doom-one t)
-
+(load-theme 'doom-solarized-dark t)
 (column-number-mode)
 
 ;; date & time
@@ -333,7 +322,7 @@
 (defun my-term ()
   "Start Z shell."
   (interactive)
-  (ansi-term "zsh"))
+  (ansi-term "/usr/local/bin/zsh"))
 
 (global-set-key (kbd "C-c t") 'my-term)
 
@@ -352,7 +341,11 @@
 
 ;; org-mode
 
-(setq org-hide-emphasis-markers t)
+(setq org-hide-emphasis-markers t)	; Отображать разметку без окружающих спецсимволов.
+(setq org-html-doctype "html5")
+(setq org-startup-with-inline-images t)
+(setq org-image-actual-width nil)
+(setq org-ellipsis " +")
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -361,18 +354,46 @@
 
 (add-hook 'org-mode-hook
 	  (lambda ()
-	    (org-indent-mode)))
+	    (org-indent-mode)
+	    (org-superstar-mode)))
 
 (add-to-list 'org-src-lang-modes (cons "jsx" 'js-jsx))
 
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.8))
+
+;; Increase the size of various headings
+(set-face-attribute 'org-document-title nil :font "BlexMono Nerd Font" :weight 'bold :height 1.3)
+  
+(dolist (face '((org-level-1 . 1.2)
+                (org-level-2 . 1.1)
+                (org-level-3 . 1.05)
+                (org-level-4 . 1.0)
+                (org-level-5 . 1.1)
+                (org-level-6 . 1.1)
+                (org-level-7 . 1.1)
+                (org-level-8 . 1.1)))
+  (set-face-attribute (car face) nil :font "BlexMono Nerd Font" :weight 'medium :height (cdr face)))
+
+;; Ensure that anything that should be fixed-pitch in Org files appears that way
+(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
+(set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+;; (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+
+;; Get rid of the background on column views
+(set-face-attribute 'org-column nil :background nil)
+(set-face-attribute 'org-column-title nil :background nil)
 
 ;; prog-mode
 
 (add-hook 'prog-mode-hook
 	  (lambda ()
 	    (display-line-numbers-mode)
-	    (electric-pair-mode)
 	    (goto-address-mode)))
 
 ;; html-mode
@@ -412,3 +433,5 @@
 
 
 (provide 'init)
+
+;;; init.el ends here
