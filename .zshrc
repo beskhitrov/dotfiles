@@ -10,7 +10,7 @@ if [[ $OSTYPE =~ "linux-gnu" ]]; then
 ;fi
 
 if [[ $OSTYPE =~ "darwin" ]]; then
-  source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  #source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
   if type brew &>/dev/null; then
     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
@@ -24,10 +24,10 @@ autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
-RPROMPT="${vcs_info_msg_0_} %8F%*%f %(!.%F{red}%n%f.%n)"
-zstyle ":vcs_info:git:*" formats "%8F%s:%b%f"
+RPROMPT="%8F%*%f"
+zstyle ":vcs_info:git:*" formats "%8F[%s:%b]%f"
 
-PROMPT="%F{yellow}%m%f:%F{green}%1~%f %# "
+PROMPT=$'%F{yellow}%m%f %F{green}%1~%f${vcs_info_msg_0_} %(!.%F{red}%n%f.%n)\n%# '
 TMOUT=1; TRAPALRM() { zle reset-prompt }
 precmd() { print "" }
 
