@@ -341,6 +341,8 @@
 
 ;; org-mode
 
+(require 'ox-md)
+
 (setq org-hide-emphasis-markers t)	; Отображать разметку без окружающих спецсимволов.
 (setq org-html-doctype "html5")
 (setq org-startup-with-inline-images t)
